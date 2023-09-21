@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Location {
-  double? _latitude;
-  double? _longtude;
+  double? latitude;
+  double? longtude;
 
-  double? get latitude => _latitude;
-  double? get longtude => _longtude;
-
-  void getCurrentLocation(BuildContext context) async {
+  Future<void> getCurrentLocation(BuildContext context) async {
     LocationPermission permission;
 
     permission = await Geolocator.checkPermission();
@@ -24,10 +21,8 @@ class Location {
       try {
         Position position = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.low);
-        _latitude = position.latitude;
-        _longtude = position.longitude;
-        print(_latitude);
-        print(_longtude);
+        latitude = position.latitude;
+        longtude = position.longitude;
       } catch (e) {
         print(e);
       }
