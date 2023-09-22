@@ -26,6 +26,7 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void updateUI(dynamic weatherData) {
+    print(weatherData);
     setState(() {
       if (weatherData == null) {
         temperature = 0;
@@ -68,17 +69,23 @@ class _LocationScreenState extends State<LocationScreen> {
                     onPressed: () async {
                       updateUI(await weatherModel.getWeatherLocation());
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.near_me,
                       size: 50.0,
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CityScreen()));
+                    onPressed: () async {
+                      var typedName = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CityScreen(),
+                        ),
+                      );
+                      print(typedName);
+                      if (typedName != null && typedName != '') {
+                        updateUI(await weatherModel.getWeatherCity(typedName));
+                      }
                     },
                     child: Icon(
                       Icons.location_city,
